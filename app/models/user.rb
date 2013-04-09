@@ -12,6 +12,8 @@
 
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
+
+  #does attr_accessor :password, :password_confirmation, among other things
   has_secure_password
 
   before_save { email.downcase! }

@@ -1,3 +1,6 @@
+# IMPORTANT - Changes to Gemfile require
+# bundle install and server restart
+
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
@@ -18,6 +21,7 @@ end
 
 group :test do
   gem 'capybara', '1.1.2'
+  gem 'factory_girl_rails', '4.1.0'
 end
 
 group :production do
