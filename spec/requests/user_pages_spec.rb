@@ -13,8 +13,7 @@ describe "User pages" do
             visit users_path
         end
 
-        it { should have_selector('title', text: 'All users' ) }
-        it { should have_selector('h1', text: 'All users' ) }
+        is_user_index_page
 
         describe "pagination" do
 
@@ -54,15 +53,14 @@ describe "User pages" do
 		let(:user) { FactoryGirl.create(:user) }
 		before { visit user_path(user) }
 
+        is_profile_page
 		it { should have_selector( 'h1', text: user.name ) }
 		it { should have_selector( 'title', text: user.name ) }
 	end
 
 	describe "signup page" do
 		before { visit signup_path }
-		it { should have_selector('h1', text: 'Sign up')}
-		it { should have_selector('title', text: 'Sign up' )}
-
+		is_signup_page
     end
 
     describe "signup process" do
@@ -74,6 +72,7 @@ describe "User pages" do
 	    	it "should not create a user" do
     			expect { click_button "Create my account" }.not_to change(User, :count )
     		end
+            is_signed_out
     	end
 
     	describe "with valid information" do
@@ -92,7 +91,7 @@ describe "User pages" do
                 let(:user) { User.find_by_email( 'user@example.com') }
                 it { should have_selector( 'title', text: user.name ) }
                 it { should have_selector( 'div.alert.alert-success', text: "Welcome" ) }
-                it { should have_link('Sign out') }
+                is_signed_in
             end
     	end
     end
@@ -105,7 +104,7 @@ describe "User pages" do
         end
 
         describe "page" do
-            it { should have_selector('h1', text: "Update your profile" ) }
+            is_user_update_page
             it { should have_selector('title', text: "Edit user") }
             it { should have_link('change', href: 'http://gravatar.com/emails') }
         end
@@ -128,7 +127,7 @@ describe "User pages" do
 
             it { should have_selector('title', text: new_name) }
             it { should have_selector('div.alert.alert-success')}
-            it { should have_link( 'Sign out', href: signout_path )}
+            is_signed_in
             specify { user.reload.name.should == new_name }
             specify { user.reload.email.should == new_email }
         end
