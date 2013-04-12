@@ -8,6 +8,8 @@ LastApp::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy ]
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+
+  resources :microposts, online: [:create, :destroy]
   
   match '/help', to: 'static_pages#help'
   match '/about', to: 'static_pages#about'
