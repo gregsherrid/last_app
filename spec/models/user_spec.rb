@@ -172,6 +172,16 @@ describe User do
 				Micropost.find_by_id(micropost).should be_nil
 			end
 		end
+
+		describe "status" do
+			let ( :unfollowed_post ) do
+				FactoryGirl.create( :micropost, user: FactoryGirl.create(:user) )
+			end
+
+			its(:feed) { should include(newer_micoposts) }
+			its(:feed) { should include(older_micoposts) }
+			its(:feed) { should_not include(unfollowed_post) }
+		end
 	end
 end
 
