@@ -2,7 +2,11 @@ LastApp::Application.routes.draw do
 
   root to: 'static_pages#home'
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   match '/signup', to: 'users#new'
 
   resources :sessions, only: [:new, :create, :destroy ]
@@ -10,6 +14,8 @@ LastApp::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', via: :delete
 
   resources :microposts, only: [:create, :destroy]
+
+  resources :relationships, only: [:create, :destroy]
   
   match '/help', to: 'static_pages#help'
   match '/about', to: 'static_pages#about'
